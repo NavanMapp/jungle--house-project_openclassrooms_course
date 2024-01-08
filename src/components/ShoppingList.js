@@ -36,12 +36,11 @@ export default function ShoppingList() {
 					<li key={plant.id} className='jh-plant-item'>
 						{plant.name}
 						{plant.isSpecialOffer && <div className='jh-sales'>Sale</div>}
+                        <CareScale careType='water' scaleValue={plant.water} />
+                        <CareScale careType='light' scaleValue={plant.light} />
 					</li>
                 ))}
             </ul>
-            {/* <CareScale scaleValue={plant.light} /> */}
-            {/* <CareScale careType='water' scaleValue={plant.water} />
-            <CareScale careType='light' scaleValue={plant.light} /> */}
         </div>
     )
 }
