@@ -1,4 +1,5 @@
 import {plantList} from '../datas/plantList'
+import '../styles/ShoppingList.css'
 
 export default function ShoppingList() {
     const categories = plantList.reduce((cat, plant) => {
@@ -7,15 +8,16 @@ export default function ShoppingList() {
         }
         return cat;
     }, [])
-
+    
     return (
         <div> 
             <h2> Plant Categories: </h2>
             <ul>
-                {categories.map((plant, index) => (
-                    <li key={`${plant}-${index}`}>{plant}</li>
+                {categories.map((category, index) => (
+                    <li key={`${category}-${index}`}>{category}</li>
                 ))}
             </ul>
+            <h2>Plants for Sale:</h2>
             <ul>
                 {plantList.map((plant, index) => (
                     <li key={`${plant.name}-${index}`}>{plant.name}</li>
@@ -24,9 +26,17 @@ export default function ShoppingList() {
             <ul>
                 {plantList.map((plant) => {
                     <li key={plant.id}>
-                        {plant.isBestSale && <span>🔥</span>}
+                        {plant.isBestSale || plant.category === "classic" && <span>🔥</span>}
                     </li>
                 })}
+            </ul>
+            <ul className='jh-plant-list'>
+				{plantList.map((plant) => (
+					<li key={plant.id} className='jh-plant-item'>
+						{plant.name}
+						{plant.isSpecialOffer && <div className='jh-sales'>Sale</div>}
+					</li>
+                ))}
             </ul>
         </div>
     )
