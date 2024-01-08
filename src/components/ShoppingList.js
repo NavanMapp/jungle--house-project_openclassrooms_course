@@ -21,6 +21,13 @@ export default function ShoppingList() {
                     <li key={`${plant.name}-${index}`}>{plant.name}</li>
                 ))}
             </ul>
+            <ul>
+                {plantList.map((plant) => {
+                    <li key={plant.id}>
+                        {plant.isBestSale && <span>🔥</span>}
+                    </li>
+                })}
+            </ul>
         </div>
     )
 }
