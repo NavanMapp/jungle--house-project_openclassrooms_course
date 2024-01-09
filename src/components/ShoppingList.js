@@ -1,6 +1,7 @@
 import {plantList} from '../datas/plantList'
 import '../styles/ShoppingList.css'
 import CareScale from './CareScale'
+import PlantItem from './PlantItem'
 
 export default function ShoppingList() {
     const categories = plantList.reduce((cat, plant) => {
