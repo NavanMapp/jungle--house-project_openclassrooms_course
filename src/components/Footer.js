@@ -11,7 +11,7 @@ export default function Footer() {
     const handleBlur = (e) => {
         e.preventDefault()
         if (!inputValue.includes('@')) {
-            alert(e.target['Error: no @ has been entered. This is not a valid email address.'].value)
+            alert('Attention: no @ has been entered. This is not a valid email address.')
         }
     }
 
