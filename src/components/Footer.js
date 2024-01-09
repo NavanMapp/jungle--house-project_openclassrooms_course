@@ -26,7 +26,7 @@ export default function Footer() {
                     placeholder='Enter Your Email Address' 
                     onChange={handleInput}
                     value={inputValue}
-                    onBlur={handleBlur}  
+                    onBlur={handleBlur}
                 />
                 <button type='submit'>Enter</button>
             </form>
