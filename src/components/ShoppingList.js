@@ -10,6 +10,22 @@ export default function ShoppingList() {
         }
         return cat;
     }, [])
+
+    function addToCart(name, price) {
+        const currentPlantAdded = cart.find((plant) => plant.name === name)
+        if (currentPlantAdded) {
+            const cartFilteredCurrentPlant = cart.filter(
+                (plant) => plant.name !== name
+            )
+            updateCart([
+                ...cartFilteredCurrentPlant,
+                { name, price, quantity: currentPlantAdded.quantity + 1}
+            ])
+        } else {
+            updateCart([...cart, { name, price, quantity: 1}])
+        }
+        
+    }
     
     return (
         <div> 
