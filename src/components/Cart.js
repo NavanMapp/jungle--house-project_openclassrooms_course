@@ -8,7 +8,7 @@ export default function Cart({ cart, updateCart }) {
     0
   )
   useEffect(() => {
-    document.title = `LMJ: ${total}€ in purchases`
+    document.title = `LMJ: R${total} in purchases`
   }, [total])
 
   return isOpen ? (
@@ -25,11 +25,11 @@ export default function Cart({ cart, updateCart }) {
           <ul>
             {cart.map(({ name, price, amount }, index) => (
               <div key={`${name}-${index}`}>
-                {name} {price}€ x {amount}
+                {name} R{price} x {amount}
               </div>
             ))}
           </ul>
-          <h3>Total :{total}€</h3>
+          <h3>Total :R{total}</h3>
           <button onClick={() => updateCart([])}>Clear Basket</button>
         </div>
       ) : (
