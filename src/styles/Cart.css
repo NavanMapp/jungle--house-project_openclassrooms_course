@@ -9,7 +9,7 @@
 	cursor: pointer;
 }
 
-/* .jh-cart-toggle-button {
+.jh-cart-toggle-button {
 	background: none;
 	outline: none;
 	border: black;
@@ -18,7 +18,7 @@
 	align-self: self-start;
 	padding: 0;
 	color: white;
-} */
+}
 
 .jh-cart-closed {
 	padding: 32px;
