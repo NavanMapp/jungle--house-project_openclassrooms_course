@@ -96,3 +96,4 @@ export const plantList = [
     cover: mint,
     price: 4
   }
+]
