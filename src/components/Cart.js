@@ -1,43 +1,46 @@
 import '../styles/Cart.css'
-import { useState } from 'react'
+import { useState, useEffect } from "react"
 
-export default function Cart() {
-    const [cart, updateCart] = useState(0)
-    // const total = cart.reduce(
-    //     (acc, plantType) => acc + plantType.quantity * plantType.price,
-    //     0
-    // )
-    const monsteraPrice = 8
+export default function Cart({ cart, updateCart }) {
     const [isOpen, setIsOpen] = useState(true)
-
-    const clearCart = () => {
-        updateCart(0)
-    }
-
+    const total = cart.reduce(
+        (acc, plantType) => acc + plantType.amount * plantType.price,
+            0
+        )
+        
     return isOpen ? (
-    <div className='jh-cart'>
-        <button
-            className='jh-cart-toggle-button'
-            onClick={() => setIsOpen(false)}
-        >
-            Close    
-        </button>
-        <h2>Cart</h2>
-        <div>
-            {cart.map(( name, price, quantity ), index) => (
-                <div key={`${name}-${index}`}>
-                    {name} R{price} x {quantity}
+        <div className='jh-cart'>
+            <button
+                className='jh-cart-toggle-button'
+                onClick={() => setIsOpen(false)}
+            >
+                Close
+            </button>
+            {cart.length > 0 ? (
+                <div>
+                    <h2>Cart</h2>
+                    <ul>
+                        {cart.map(({ name, price, amount }, index) => (
+                            <div key={`${name}-${index}`}>
+                                {name} {price}€ x {amount}
+                            </div>
+                        ))}
+                    </ul>
+                    <h3>Total:{total}€</h3>
+                    <button onClick={() => updateCart([])}>Open Cart</button>
                 </div>
+            ) : (
+                <div>Your cart is empty</div>
             )}
         </div>
-        <h3>Total: R{total}</h3>
-        <button
-            onClick={() => updateCart([])}>Empty Cart</button>
-    </div>) : (
-        <button
-            className='jh-cart-toggle-button'
-            onClick={() => setIsOpen(true)}>
-            Open Cart
-        </button>
+    ) : (
+        <div className='jh-cart-closed'>
+            <button
+                className='jh-cart-toggle-button'
+                onClick={() => setIsOpen(true)}
+            >
+                Open Cart
+            </button>
+        </div>
     )
 }

@@ -1,81 +1,51 @@
-import {plantList} from '../datas/plantList'
-import '../styles/ShoppingList.css'
-import CareScale from './CareScale'
-import PlantItem from './PlantItem'
+import { useState, useEffect } from 'react'
+import '../styles/Cart.css'
 
-export default function ShoppingList() {
-    const categories = plantList.reduce((cat, plant) => {
-        if (!cat.includes(plant.category)) {
-            cat.push(plant.category);
-        }
-        return cat;
-    }, [])
+function Cart({ cart, updateCart }) {
+  const [isOpen, setIsOpen] = useState(true)
+  const total = cart.reduce(
+    (acc, plantType) => acc + plantType.amount * plantType.price,
+    0
+  )
+  useEffect(() => {
+    document.title = `LMJ: ${total}€ in purchases`
+  }, [total])
 
-    function addToCart(name, price) {
-        const currentPlantAdded = cart.find((plant) => plant.name === name)
-        if (currentPlantAdded) {
-            const cartFilteredCurrentPlant = cart.filter(
-                (plant) => plant.name !== name
-            )
-            updateCart([
-                ...cartFilteredCurrentPlant,
-                { name, price, quantity: currentPlantAdded.quantity + 1}
-            ])
-        } else {
-            updateCart([...cart, { name, price, quantity: 1}])
-        }
-        
-    }
-
-    return(
-        <div className='jh-shopping-list'>
-            <ul>
-                {categories.map((cat) => {
-                    <li key={cat}>{cat}</li>
-                })}
-            </ul>
-            <ul>
-                {plantList.map(({id, cover, name, water, light, price}) => (
-                    <div>
-                        <PlantItem cover={cover} name={name} water={water} light={light} />
-                        <button onClick={() => addToCart(name, price)}>Add</button>
-                    </div>
-                ))}
-            </ul>
+  return isOpen ? (
+    <div className='jh-cart'>
+      <button
+        className='jh-cart-toggle-button'
+        onClick={() => setIsOpen(false)}
+      >
+        Close
+      </button>
+      {cart.length > 0 ? (
+        <div>
+          <h2>Cart</h2>
+          <ul>
+            {cart.map(({ name, price, amount }, index) => (
+              <div key={`${name}-${index}`}>
+                {name} {price}€ x {amount}
+              </div>
+            ))}
+          </ul>
+          <h3>Total :{total}€</h3>
+          <button onClick={() => updateCart([])}>Clear Basket</button>
         </div>
-    )
-    
-    // return (
-    //     <div> 
-    //         <h2> Plant Categories: </h2>
-    //         <ul>
-    //             {categories.map((category, index) => (
-    //                 <li key={`${category}-${index}`}>{category}</li>
-    //             ))}
-    //         </ul>
-    //         <h2>Plants for Sale:</h2>
-    //         <ul>
-    //             {plantList.map((plant, index) => (
-    //                 <li key={`${plant.name}-${index}`}>{plant.name}</li>
-    //             ))}
-    //         </ul>
-    //         <ul>
-    //             {plantList.map((plant) => {
-    //                 <li key={plant.id}>
-    //                     {plant.isBestSale || plant.category === "classic" && <span>🔥</span>}
-    //                 </li>
-    //             })}
-    //         </ul>
-    //         <ul className='jh-plant-list'>
-	// 			{plantList.map((plant) => (
-	// 				<li key={plant.id} className='jh-plant-item'>
-	// 					{plant.name}
-	// 					{plant.isSpecialOffer && <div className='jh-sales'>Sale</div>}
-    //                     <CareScale careType='water' scaleValue={plant.water} />
-    //                     <CareScale careType='light' scaleValue={plant.light} />
-	// 				</li>
-    //             ))}
-    //         </ul>
-    //     </div>
-    // )
+      ) : (
+        <div>Your basket is empty.</div>
+      )}
+    </div>
+  ) : (
+    <div className='jh-cart-closed'>
+      <button
+        className='jh-cart-toggle-button'
+        onClick={() => setIsOpen(true)}
+      >
+        Clear Basket
+      </button>
+    </div>
+  )
 }
+
+export default Cart
