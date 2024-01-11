@@ -8,7 +8,7 @@ function handleClick(plantName) {
 export default function PlantItem({ cover, name, water, light, price }) {
 	return (
 		<li className='jh-plant-item' onClick={() => handleClick}>
-			<span className='jh-plant-item-price'>{price}€</span>
+			<span className='jh-plant-item-price'>R{price}</span>
 			<img className='jh-plant-item-cover' src={cover} alt={`${name} cover`} />
 			{name}
 			<div>
