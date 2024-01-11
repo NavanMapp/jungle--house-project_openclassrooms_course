@@ -1,51 +1,54 @@
-import { useState, useEffect } from 'react'
-import '../styles/Cart.css'
+import { useState } from 'react'
+import { plantList } from '../datas/plantList'
+import PlantItem from './PlantItem'
+import Categories from './Categories'
+import '../styles/ShoppingList.css'
 
-function Cart({ cart, updateCart }) {
-  const [isOpen, setIsOpen] = useState(true)
-  const total = cart.reduce(
-    (acc, plantType) => acc + plantType.amount * plantType.price,
-    0
+export default function ShoppingList({ cart, updateCart }) {
+  const [activeCategory, setActiveCategory] = useState('')
+  const categories = plantList.reduce(
+    (acc, elem) =>
+      acc.includes(elem.category) ? acc : acc.concat(elem.category),
+    []
   )
-  useEffect(() => {
-    document.title = `LMJ: ${total}€ in purchases`
-  }, [total])
 
-  return isOpen ? (
-    <div className='jh-cart'>
-      <button
-        className='jh-cart-toggle-button'
-        onClick={() => setIsOpen(false)}
-      >
-        Close
-      </button>
-      {cart.length > 0 ? (
-        <div>
-          <h2>Cart</h2>
-          <ul>
-            {cart.map(({ name, price, amount }, index) => (
-              <div key={`${name}-${index}`}>
-                {name} {price}€ x {amount}
-              </div>
-            ))}
-          </ul>
-          <h3>Total :{total}€</h3>
-          <button onClick={() => updateCart([])}>Clear Basket</button>
-        </div>
-      ) : (
-        <div>Your basket is empty.</div>
-      )}
-    </div>
-  ) : (
-    <div className='jh-cart-closed'>
-      <button
-        className='jh-cart-toggle-button'
-        onClick={() => setIsOpen(true)}
-      >
-        Clear Basket
-      </button>
+  function addToCart(name, price) {
+    const currentPlantAdded = cart.find(plant => plant.name === name)
+    if (currentPlantAdded) {
+      const cartFilteredCurrentPlant = cart.filter(plant => plant.name !== name)
+      updateCart([
+        ...cartFilteredCurrentPlant,
+        { name, price, amount: currentPlantAdded.amount + 1 }
+      ])
+    } else {
+      updateCart([...cart, { name, price, amount: 1 }])
+    }
+  }
+
+  return (
+    <div className='jh-shopping-list'>
+      <Categories
+        categories={categories}
+        setActiveCategory={setActiveCategory}
+        activeCategory={activeCategory}
+      />
+
+      <ul className='jh-plant-list'>
+        {plantList.map(({ id, cover, name, water, light, price, category }) =>
+          !activeCategory || activeCategory === category ? (
+            <div key={id}>
+              <PlantItem
+                cover={cover}
+                name={name}
+                water={water}
+                light={light}
+                price={price}
+              />
+              <button onClick={() => addToCart(name, price)}>Add</button>
+            </div>
+          ) : null
+        )}
+      </ul>
     </div>
   )
 }
-
-export default Cart

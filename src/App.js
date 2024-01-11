@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
-import Banner from './components/Banner.js';
-import Cart from './components/Cart';
-import Footer from './components/Footer.js';
-import ShoppingList from './components/ShoppingList';
-// import './styles/Layout.css'
+import { useState, useEffect } from 'react'
+import Banner from '../src/components/Banner'
+import logo from './assets/logo.png'
+import Cart from '../src/components/Cart'
+import Footer from '../src/components/Footer'
+import ShoppingList from '../src/components/ShoppingList'
+import './styles/Layout.css'
 
 export default function App() {
   const savedCart = localStorage.getItem('cart')
@@ -13,13 +14,16 @@ export default function App() {
   }, [cart])
 
   return (
-  <div>
-      <Banner />
+    <div>
+      <Banner>
+        <img src={logo} alt='Jungle House' className='jh-logo' />
+        <h1 className='jh-title'>Jungle House</h1>
+      </Banner>
       <div className='jh-layout-inner'>
         <Cart cart={cart} updateCart={updateCart} />
         <ShoppingList cart={cart} updateCart={updateCart} />
       </div>
       <Footer />
-  </div>
+    </div>
   )
 }
